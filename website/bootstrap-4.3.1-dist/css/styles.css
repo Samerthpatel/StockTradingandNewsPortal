@@ -1,0 +1,19 @@
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(128,128,128,);
+    color: white;
+    text-align: center;
+  }
+
+#navbar {
+    transition: 500ms;
+}
+
+@media screen and (max-height: 400px) {
+    header {
+        height: 35em;
+    }
+}
