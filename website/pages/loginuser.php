@@ -1,5 +1,5 @@
 <?php
-include "config.php";
+include "../config.php";
 
 
 if(isset($_POST['submit'])){
@@ -18,10 +18,10 @@ if(isset($_POST['submit'])){
 
         if($count > 0){
             $_SESSION['uname'] = $uname;
-            header('Location: pages/login.php');
+            header('Location: login.php');
         }else{
             $message = "Invalid username or password. If you do not have an account create one by clicking the signup button.";
-            echo "<script type='text/javascript'>alert('$message'); window.location='index.php'</script>";
+            echo "<script type='text/javascript'>alert('$message'); window.location='../index.php'</script>";
         }
 
     }

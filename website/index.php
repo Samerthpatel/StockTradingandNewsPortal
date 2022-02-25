@@ -30,7 +30,7 @@ include "loginuser.php";
 					<div class="login-wrap p-4 p-md-5">
 					<i class=""></i>
 		      	<h3 class="text-center mb-4">Sign in</h3>
-						<form method ="post" action="loginuser.php" class="login-form">
+						<form method ="post" action="pages/loginuser.php" class="login-form">
 		      		<div class="form-group">
 						<h7 class="mb-4">Username: </h7>
 		      			<input type="text" class="textbox form-control rounded-left" id="username" name="username" placeholder="Username" required />
@@ -42,23 +42,25 @@ include "loginuser.php";
 	            <div class="form-group">
 	            	<button type="submit" class="form-control btn btn-dark rounded submit px-3" name="submit" id="submit" />Login</button>
 	            </div>
+				</form>
 				<div class="form-group">
-	            	<button type="submit" class="form-control btn btn-dark rounded submit px-3" />Sign up</button>
+					<form method="get" action="pages/signup.php">
+						<button type="submit" class="form-control btn btn-dark rounded submit px-3" />Sign up</button>
+					</form>
 	            </div>
 	            <div class="form-group d-md-flex">
 	            </div>
-	          </form>
 	        </div>
 				</div>
 			</div>
 		</div>
-	</section>
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-	</body>
 	<footer>
               <div class="footer">
                       <p>&copy; Copyright CryptoCoders 2022, Samerth Patel, Rishi Radia, Prince Rupapara, Mena Wadie</p>
               </div>
-      </footer>
+    </footer>
+	</section>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+	</body>
 </html>
