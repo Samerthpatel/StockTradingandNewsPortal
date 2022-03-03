@@ -17,3 +17,56 @@
         height: 35em;
     }
 }
+
+header {
+    background: url(../images/background.jpeg) center no-repeat fixed;
+    height: 100vh;
+}
+
+.newsletter {
+    background: url(../images/york.jpg) center no-repeat fixed;
+}
+
+header, .newsletter {
+    background-size: cover;
+    position: relative;
+}
+
+header::before, .newsletter::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 0;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgb(128,128,128, 0.6);
+  color: white;
+  text-align: center;
+}
+
+#navbar {
+    transition: 500ms;
+}
+
+@media screen and (max-height: 400px) {
+    header {
+        height: 35em;
+    }
+}
+
+.logo-image{
+    width: 46px;
+    height: 46px;
+    border-radius: 0%;
+    overflow: hidden;
+    margin-top: 0px;
+}

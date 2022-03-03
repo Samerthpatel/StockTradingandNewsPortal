@@ -1,8 +1,10 @@
 <?php
-include "config.php";
-include "loginuser.php";
+	session_start();
+	if (isset($_SESSION['message'])){
+	echo $_SESSION['message'];
+	unset ($_SESSION['message']);
+	}
 ?>
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -30,7 +32,7 @@ include "loginuser.php";
 					<div class="login-wrap p-4 p-md-5">
 					<i class=""></i>
 		      	<h3 class="text-center mb-4">Sign in</h3>
-						<form method ="post" action="pages/loginuser.php" class="login-form">
+						<form method ="post" action="pages/login.php" class="login-form">
 		      		<div class="form-group">
 						<h7 class="mb-4">Username: </h7>
 		      			<input type="text" class="textbox form-control rounded-left" id="username" name="username" placeholder="Username" required />
@@ -44,11 +46,7 @@ include "loginuser.php";
 	            </div>
 				</form>
 				<div class="form-group">
-					<form method="get" action="pages/signup.php">
-						<button type="submit" class="form-control btn btn-dark rounded submit px-3" />Sign up</button>
-					</form>
-	            </div>
-	            <div class="form-group d-md-flex">
+					<button type="button" class="form-control btn btn-dark rounded submit px-3" /><a href="signup.php">Sign up</a></button>
 	            </div>
 	        </div>
 				</div>

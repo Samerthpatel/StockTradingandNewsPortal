@@ -1,27 +1,22 @@
 <?php
-include "../config.php";
-
-if(!isset($_SESSION['uname'])){
-
-    header('Location: ../index.php');
-
-}
-
-if(isset($_POST['but_logout'])){
-
-    session_destroy();
-    header('Location: ../index.php');
-
-}
+session_start();
+	include('conn.php');
+	
+	$username=$_POST['username'];
+	$password=$_POST['password'];
+	
+	$query=mysqli_query($conn,"select * from `user` where username='$username' and password='$password'");
+	
+	if (mysqli_num_rows($query)<1){
+		/* $_SESSION['message']="Login Error. Please Try Again"; */
+		echo "<script>window.alert('Login Error. Please try again.')</script>";
+		echo "<script>window.location.href='../index.php?attempt=failed'</script>";
+		//header('location:index.php');
+	}
+	else{
+		$row=mysqli_fetch_array($query);
+		$_SESSION['userid']=$row['userid'];
+		header('location:dash.php');
+	}
 
 ?>
-<!doctype html>
-<html>
-    <head></head>
-    <body>
-        <h1>Homepage</h1>
-        <form method='post' action="">
-            <input type="submit" value="Logout" name="but_logout">
-        </form>
-    </body>
-</html>
