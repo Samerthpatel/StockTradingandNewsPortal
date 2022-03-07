@@ -5,7 +5,9 @@
 	header('location:index.php');
     exit();
 	}
-
+	$uquery=mysqli_query($conn,"SELECT * FROM `user` WHERE userid='".$_SESSION['userid']."'");
+	$urow=mysqli_fetch_assoc($uquery);
+	
 	$query=mysqli_query($conn,"SELECT * FROM user WHERE userid='$_SESSION[userid]' ")or die(mysqli_error($conn));
 	$row=mysqli_fetch_array($query);
 	$username=$row['username'];
@@ -38,6 +40,13 @@
 	<link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.css">
 	<link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="bootstrap-4.3.1-dist/css/styles.css">
+	<style>
+  
+    td {
+    padding: 5px;
+    text-align:center;     
+    }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
@@ -99,17 +108,10 @@
             </div>
         </div>
     </nav>
-<table id="chat_room" align="center">
-	<tr>
-		<td><a href="pages/dash.php">Home</a></td>
-	</tr>
-	<tr>
-	<th><h4>Edit Details - <a href="logout.php" onclick="return confirm_logout();">Logout</a></h4></th>
-	</tr>
-
+<table class="table table-borderless" id="chat_room" align="center">
 			<tr>
 			<td>
-			<h4>Hi there, <font color="blue"><?php echo $your_name; ?></font></h4>
+			<h4>Hi there, <font color="black"><?php echo $your_name; ?></font></h4>
 			</td>
 			</tr>
 	<tr>
@@ -137,7 +139,6 @@
 	</tr>
 
 	<tr>
-		<!--<td><button name="submit" type="button" id="send_msg" class="button button2">Update</button></td>-->
 		<td><input type="submit" name="submit" class="button button2"></td>
 	</tr>
 	</form>
@@ -147,7 +148,7 @@
 	</tr>
 
 	<tr>
-		<td><a href="profile.php?userid=<?php echo $_SESSION['userid']; ?>">back to Profile</a></td>
+		<td><button type="button" class="form-control btn btn-dark rounded submit px-3" /><a href="profile.php?userid=<?php echo $_SESSION['userid']; ?>">back to Profile</a></button></td>
 	</tr>
 </table>
 </body>
