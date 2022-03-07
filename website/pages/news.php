@@ -1,28 +1,30 @@
 <?php
-	include('conn.php');
-    session_start();
-    if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
-    header('location:index.php');
-    exit();
-    }    
+$api=file_get_contents("https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=767022eecc34405bbc4f2c84556fdcf5");
+$news=json_decode($api,true);
 
-    $uquery=mysqli_query($conn,"SELECT * FROM `user` WHERE userid='".$_SESSION['userid']."'");
-    $urow=mysqli_fetch_assoc($uquery);
+include('conn.php');
+session_start();
+if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
+header('location:index.php');
+exit();
+}
+
+$uquery=mysqli_query($conn,"SELECT * FROM `user` WHERE userid='".$_SESSION['userid']."'");
+$urow=mysqli_fetch_assoc($uquery);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<link rel="stylesheet" href="bootstrap-4.3.1-dist/css/style.css">
 	<link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.css">
 	<link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="bootstrap-4.3.1-dist/css/styles.css">
-    <title>Dash</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News</title>
 </head>
-<body>
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand text-success" href="#">
@@ -82,57 +84,30 @@
             </div>
         </div>
     </nav>
-    <section>
-          <div class="card-group my-4 py-4">
-              <div class="card mx-2">
-                  <img src="" class="card-img-top" alt="" />
-                  <div class="card-body">
-                      <h5 class="card-title">
-                          Chat
-                      </h5>
-                      <p class="card-text">
-                          Chat on the global chat and see what everyone is talking about. 
-                      </p>
-                      <a class="btn btn-primary" href="../home.php">Start chating</a>
-                  </div>
-              </div>
-              <div class="card mx-2">
-                <img src="" class="card-img-top" alt="" />
-                <div class="card-body">
-                    <h5 class="card-title">
-                        News
-                    </h5>
-                    <p class="card-text">
-                        Find recent news on business to stay up to date and invest accordingly.
-                    </p>
-                    <a class="btn btn-primary" href="news.php">Find news</a>
-                </div>
-            </div>
-            <div class="card mx-2">
-                <img src="" class="card-img-top" alt="" />
-                <div class="card-body">
-                    <h5 class="card-title">
-                        Research
-                    </h5>
-                    <p class="card-text">
-                        Research stocks and find data such as closing price, high price, low price, and volume of any stock.
-                    </p>
-                    <a class="btn btn-primary" href="research.php">look of stock prices</a>
-                </div>
-            </div>
-            <div class="card mx-2">
-                <img src="" class="card-img-top" alt="" />
-                <div class="card-body">
-                    <h5 class="card-title">
-                        Trade
-                    </h5>
-                    <p class="card-text">
-                        Trade stocks with your account.
-                    </p>
-                    <a class="btn btn-primary" href="trade.php">Start trading</a>
-                </div>
-            </div>
-          </div>
-      </section>
+<body style="margin-left: 80px; margin-right: 80px;">
+</br>
+</br>
+<h3 style="text-align: center;"> News </h3>
+</br>
+</br>
+<div class="row">
+<?php foreach($news['articles'] as $value) {?>
+<div class="col  mb-2">
+<div class="card h-100" style="width: 20rem;">
+  <img class="card-img-top" src="<?=$value['urlToImage']?>" style="width: 20rem; height: 150px;"/>
+    <div class="card-body">
+    <h5 class="card-title"><?=$value['title']?></h5>
+    <p class="card-text"><?=$value['publishedAt']?></p>
+    <div class="scrollable" style="overflow-y: auto; emax-height: 300px;">
+    <p class="card-text"><?=$value['description']?></p>
+    </div>
+    <div class="card-footer mt-auto">
+    <a href="<?=$value['url']?>" style="color:#FF0000;">readmore</a>
+    </div>
+</div>
+</div>
+</div>
+<?php } ?>
+</div>
 </body>
 </html>
