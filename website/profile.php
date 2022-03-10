@@ -5,6 +5,9 @@
 	header('location:index.php');
     exit();
 	}
+	
+	$uquery=mysqli_query($conn,"SELECT * FROM `user` WHERE userid='".$_SESSION['userid']."'");
+	$urow=mysqli_fetch_assoc($uquery);
 
 	$query=mysqli_query($conn,"SELECT * FROM user WHERE userid='$_SESSION[userid]' ")or die(mysqli_error($conn));
 	$row=mysqli_fetch_array($query);
@@ -26,6 +29,13 @@
 	<link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="bootstrap-4.3.1-dist/css/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+  
+    td {
+    padding: 5px;
+    text-align:center;     
+    }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
@@ -87,14 +97,10 @@
             </div>
         </div>
     </nav>
-<table class="table" id="chat_room" align="center">
-	<tr>
-	<th><h4>Profile Settings - <a href="logout.php" onclick="return confirm_logout();">Logout</a></h4></th>
-	</tr>
-
+<table class="table table-borderless" id="chat_room" align="center">
 			<tr>
 			<td>
-			<h4>Hi there, <font color="blue"><?php echo $your_name; ?></font></h4>
+			<h4>Hi there, <font color="black"><?php echo $your_name; ?></font></h4>
 			</td>
 			</tr>
 	<tr>
@@ -121,7 +127,7 @@
 	</tr>
 
 	<tr>
-		<td><a href="edit_details.php?userid=<?php echo $_SESSION['userid']; ?>">Edit Details</a></td>
+		<td><button type="button" class="form-control btn btn-dark rounded submit px-3" /><a href="edit_details.php?userid=<?php echo $_SESSION['userid']; ?>">Edit Details</a></button></td>
 	</tr>
 </table>
 </body>
