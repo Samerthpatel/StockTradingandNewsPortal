@@ -32,7 +32,7 @@
 					<div class="login-wrap p-4 p-md-5">
 					<i class=""></i>
 		      	<h3 class="text-center mb-4">Register account</h3>
-						<form method ="POST" action="pages/signupuser.php" class="login-form">
+						<form method ="POST" action="messaging/signupuser.php" class="login-form">
                     <div class="form-group">
 						<h7 class="mb-4">Name: </h7>
 		      			<input type="text" class="textbox form-control rounded-left" id="name" name="name" placeholder="Name" required />

@@ -17,6 +17,10 @@ function requestProcessor($request){
       print_r($request);
       return doLogin($request['username'],$request['password']);
 
+	case "signup":
+	print_r($request);
+	return signUp($request['username'],$request['password'],$request['name'],$request['email'],$request['phone']);
+
     case "validate_session":
       return doValidate($request['sessionId']);
     }
@@ -39,6 +43,25 @@ function doLogin($username, $password){
 		return $response;
 
 	}
+}
+
+function signUp($username, $password, $name, $email, $phone){
+	global $configs;
+
+	//Initialize the connection to the database.
+	$con = mysqli_connect ($configs['SQL_Server'],$configs['SQL_User'],$configs['SQL_Pass'],$configs['SQL_db']);
+	$query=mysqli_query($con, "select * from `user` where email='$email'");
+
+	if (mysqli_num_rows($query)>0){
+		$response = "1";
+		return $response;
+	}
+	else{
+		$insert=mysqli_query($con, "INSERT INTO user(username,password,email,phone,your_name)VALUES('$username','$password','$email','$phone','$name')")or die(mysqli_error($conn));
+		$response = "0";
+		return $response;
+	}
+
 }
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
