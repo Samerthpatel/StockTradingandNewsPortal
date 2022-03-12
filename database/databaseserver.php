@@ -1,40 +1,48 @@
 #!/usr/bin/php
 <?php
-require_once('path.inc');
-require_once('get_host_info.inc');
-require_once('rabbitMQLib.inc');
+require_once('../rabbitmq/path.inc');
+require_once('../rabbitmq/get_host_info.inc');
+require_once('../rabbitmq/rabbitMQLib.inc');
 
-function doLogin($username,$password)
-{
-    // lookup username in databas
-    // check password
-    return true;
-    //return false if not valid
-}
+$configs = include('server_config.php');
+print_r($configs);
 
-function requestProcessor($request)
-{
-  echo "received request".PHP_EOL;
-  var_dump($request);
-  if(!isset($request['type']))
-  {
-    return "ERROR: unsupported message type";
-  }
-  switch ($request['type'])
-  {
+function requestProcessor($request){
+  global $response;
+
+  if(!isset($request['type'])){return "ERROR: unsupported message type";}
+
+  switch ($request['type']){
     case "login":
+      print_r($request);
       return doLogin($request['username'],$request['password']);
+
     case "validate_session":
       return doValidate($request['sessionId']);
+    }
   }
-  return array("returnCode" => '0', 'message'=>"Server received request and processed");
-}
 
+function doLogin($username, $password){
+  global $configs;
+		
+		//Initialize the connection to the database.
+		$con = mysqli_connect ($configs['SQL_Server'],$configs['SQL_User'],$configs['SQL_Pass'],$configs['SQL_db']);
+		//Constructing the query to find user in the database.
+		$query=mysqli_query($con,"select * from `user` where username='$username' and password='$password'");
+	
+	if (mysqli_num_rows($query)<1){
+		$response = "1";
+		return $response;
+	}
+	else{
+		$response = "0";
+		return $response;
+
+	}
+}
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
 echo "testRabbitMQServer BEGIN".PHP_EOL;
 $server->process_requests('requestProcessor');
-echo "testRabbitMQServer END".PHP_EOL;
 exit();
 ?>
-

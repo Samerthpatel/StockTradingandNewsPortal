@@ -1,13 +1,7 @@
 <?php
-	include('conn.php');
     session_start();
-    if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
-    header('location:index.php');
-    exit();
-    }    
+    $_SESSION["username"] = $username;
 
-    $uquery=mysqli_query($conn,"SELECT * FROM `user` WHERE userid='".$_SESSION['userid']."'");
-    $urow=mysqli_fetch_assoc($uquery);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,7 +70,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-						<a class="nav-link" href="../profile.php?userid=<?php echo $_SESSION['userid']; ?>"><?php echo $urow['your_name']; ?></a>
+						<a class="nav-link" href="../profile.php?username=<?php echo $_SESSION['username']; ?>"><?php echo $_SESSION['username']; ?></a>
                     </li>
                 </ul>
             </div>
