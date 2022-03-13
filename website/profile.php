@@ -1,21 +1,15 @@
 <?php
-	include('pages/conn.php');
 	session_start();
-	if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
-	header('location:index.php');
-    exit();
-	}
-	
-	$uquery=mysqli_query($conn,"SELECT * FROM `user` WHERE userid='".$_SESSION['userid']."'");
-	$urow=mysqli_fetch_assoc($uquery);
-
-	$query=mysqli_query($conn,"SELECT * FROM user WHERE userid='$_SESSION[userid]' ")or die(mysqli_error($conn));
-	$row=mysqli_fetch_array($query);
-	$username=$row['username'];
-	$password=$row['password'];
-	$email=$row['email'];
-	$phone=$row['phone'];
-	$your_name=$row['your_name'];
+	 require_once('../rabbitmq/path.inc');
+	 require_once('../rabbitmq/get_host_info.inc');
+	 require_once('../rabbitmq/rabbitMQLib.inc');
+ 
+     $userid = $_SESSION["userid"];
+	 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+	 $request = array();
+		 $request['type'] = "profile";
+		 $request['userid'] = $userid;
+		 $response = $client->send_request($request);
 
 ?>
 <!DOCTYPE html>
@@ -100,26 +94,26 @@
 <table class="table table-borderless" id="chat_room" align="center">
 			<tr>
 			<td>
-			<h4>Hi there, <font color="black"><?php echo $your_name; ?></font></h4>
+			<h4>Hi there, <font color="black"><?php echo $response['name']; ?></font></h4>
 			</td>
 			</tr>
 	<tr>
 		<td><b>Details</b></td>
 	</tr>
 	<tr>
-		<td>Username:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="<?php echo $username;?>" disabled /></td>
+		<td>Username:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="<?php echo $response['username']; ?>" disabled /></td>
 	</tr>
 
 	<tr>
-		<td>Password:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" value="<?php echo $password; ?>"  disabled /></td>
+		<td>Password:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" value="<?php echo $response['password']; ?>"  disabled /></td>
 	</tr>
 
 	<tr>
-		<td>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="email" value="<?php echo $email; ?>" disabled /></td>
+		<td>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="email" value="<?php echo $response['email']; ?>" disabled /></td>
 	</tr>
 
 	<tr>
-		<td>Phone:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="<?php echo $phone; ?>" disabled/></td>
+		<td>Phone:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="<?php echo $response['phone']; ?>" disabled/></td>
 	</tr>
 
  	<tr>

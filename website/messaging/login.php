@@ -1,8 +1,8 @@
 #!/usr/bin/php
 <?php
-require_once('path.inc');
-require_once('get_host_info.inc');
-require_once('rabbitMQLib.inc');
+require_once('../../rabbitmq/path.inc');
+require_once('../../rabbitmq/get_host_info.inc');
+require_once('../../rabbitmq/rabbitMQLib.inc');
 
 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 $request = array();
@@ -24,14 +24,15 @@ $request = array();
 		<?php
 		$payload = json_encode($response);
 		echo $payload;
-			if ($response == "0"){
+			if ($response == true){
+				$userid = $response['userid'];
 				session_start();
-				$_SESSION["username"] = $username;
-				header("location: ../website/pages/dash.php");
+				$_SESSION['userid']=$userid;
+				header("location: ../pages/dash.php");
 			}
 			 else {
 				echo '<div class="alert alert-danger" style="text: center;">Login could not be authenticated.</div>';
-				header('Refresh: 3; url= website/index.php');
+				header('Refresh: 3; url= ../index.html');
 			}
 		?>
 	</div>

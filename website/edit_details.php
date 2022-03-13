@@ -1,35 +1,21 @@
 <?php
-	include('pages/conn.php');
 	session_start();
 	if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
 	header('location:index.php');
     exit();
 	}
-	$uquery=mysqli_query($conn,"SELECT * FROM `user` WHERE userid='".$_SESSION['userid']."'");
-	$urow=mysqli_fetch_assoc($uquery);
 	
-	$query=mysqli_query($conn,"SELECT * FROM user WHERE userid='$_SESSION[userid]' ")or die(mysqli_error($conn));
-	$row=mysqli_fetch_array($query);
-	$username=$row['username'];
-	$password=$row['password'];
-	$email=$row['email'];
-	$phone=$row['phone'];
-	$your_name=$row['your_name'];
-
-	if(isset($_POST['submit'])){
-
-		$userid=$_GET['userid'];
-		$your_name_edit=mysqli_real_escape_string($conn,$_POST['your_name']);
-		$username_edit=mysqli_real_escape_string($conn,$_POST['username']);
-		$password_edit=mysqli_real_escape_string($conn,$_POST['password']);
-		$email_edit=mysqli_real_escape_string($conn,$_POST['email']);
-		$phone_edit=mysqli_real_escape_string($conn,$_POST['phone']);
-
-	$update_query=mysqli_query($conn,"UPDATE user SET your_name='$your_name_edit',username='$username_edit',password='$password_edit',email='$email_edit',phone='$phone_edit' WHERE userid='$userid' ")or die(mysqli_error($conn));
-	echo "<script>window.alert('Record successfully updated!')</script>";
-	echo "<script>window.location.href='edit_details.php?userid=$_SESSION[userid]'</script>";
-	}
-
+	session_start();
+	 require_once('../rabbitmq/path.inc');
+	 require_once('../rabbitmq/get_host_info.inc');
+	 require_once('../rabbitmq/rabbitMQLib.inc');
+ 
+     $userid = $_SESSION["userid"];
+	 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+	 $request = array();
+		 $request['type'] = "editdetails";
+		 $request['userid'] = $userid;
+		 $response = $client->send_request($request);
 ?>
 <!DOCTYPE html>
 <html>
@@ -111,31 +97,31 @@
 <table class="table table-borderless" id="chat_room" align="center">
 			<tr>
 			<td>
-			<h4>Hi there, <font color="black"><?php echo $your_name; ?></font></h4>
+			<h4>Hi there, <font color="black"><?php echo $response['name']; ?></font></h4>
 			</td>
 			</tr>
 	<tr>
 		<td><b>Details</b></td>
 	</tr>
-	<form name="form_edit" method="post" action="">
+	<form name="form_edit" method="post" action="messaging/updateprofile.php">
 	<tr>
-		<td>Your Name:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="your_name" value="<?php echo $your_name;?>"  /></td>
+		<td>Your Name:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="name" name="name" value="<?php echo $response['name'];?>"  /></td>
 	</tr>
 
 	<tr>
-		<td>Username:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="username" value="<?php echo $username;?>"  /></td>
+		<td>Username:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="username" name="username" value="<?php echo $response['username'];?>"  /></td>
 	</tr>
 
 	<tr>
-		<td>Password:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" name="password" value="<?php echo $password; ?>"   /></td>
+		<td>Password:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" id="password" name="password" value="<?php echo $response['password']; ?>"   /></td>
 	</tr>
 
 	<tr>
-		<td>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="email" name="email" value="<?php echo $email; ?>"  /></td>
+		<td>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="email" id="email" name="email" value="<?php echo $response['email']; ?>"  /></td>
 	</tr>
 
 	<tr>
-		<td>Phone:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="phone" value="<?php echo $phone; ?>" /></td>
+		<td>Phone:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="phone" name="phone" value="<?php echo $response['phone']; ?>" /></td>
 	</tr>
 
 	<tr>

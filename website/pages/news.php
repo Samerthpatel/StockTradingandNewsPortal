@@ -2,15 +2,7 @@
 $api=file_get_contents("https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=767022eecc34405bbc4f2c84556fdcf5");
 $news=json_decode($api,true);
 
-include('conn.php');
 session_start();
-if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
-header('location:index.php');
-exit();
-}
-
-$uquery=mysqli_query($conn,"SELECT * FROM `user` WHERE userid='".$_SESSION['userid']."'");
-$urow=mysqli_fetch_assoc($uquery);
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -5,9 +5,6 @@
 	header('location:index.php');
     exit();
 	}
-	
-	$uquery=mysqli_query($conn,"SELECT * FROM `user` WHERE userid='".$_SESSION['userid']."'");
-	$urow=mysqli_fetch_assoc($uquery);
 ?>
 <!DOCTYPE html>
 <html>

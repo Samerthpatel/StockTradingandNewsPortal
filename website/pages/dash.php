@@ -1,14 +1,12 @@
 <?php
-	include('conn.php');
     session_start();
-    if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
-    header('location:index.php');
+    session_start();
+	if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
+	header('location:../index.php');
     exit();
-    }    
-
-    $uquery=mysqli_query($conn,"SELECT * FROM `user` WHERE userid='".$_SESSION['userid']."'");
-    $urow=mysqli_fetch_assoc($uquery);
+	}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,7 +74,10 @@
                         </a>
                     </li>
                     <li class="nav-item">
-						<a class="nav-link" href="../profile.php?userid=<?php echo $_SESSION['userid']; ?>"><?php echo $urow['your_name']; ?></a>
+                    <a class="nav-link"
+                           href="../profile.php">
+                          Profile
+                        </a>                    
                     </li>
                 </ul>
             </div>
