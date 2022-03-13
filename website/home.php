@@ -17,7 +17,6 @@
 <link rel="stylesheet" href="bootstrap-4.3.1-dist/css/styles.css">
 <script src="jquery-3.1.1.js"></script>	
 <script type="text/javascript">
-
 $(document).keypress(function(e){ //using keyboard enter key
 	displayResult();
 	/* Send Message	*/	
@@ -91,6 +90,9 @@ $(document).ready(function(){ //using send button
 			}
 		});
 	}
+	function scrollDown() {
+ 	document.getElementById('result').scrollTop =  document.getElementById('result').scrollHeight
+}
 </script>
 
 </head>
@@ -115,7 +117,7 @@ $(document).ready(function(){ //using send button
             <div class="collapse navbar-collapse" 
                  id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-link">
+                    <li class="nav-item">
                         <a class="nav-link" href="pages/dash.php">Home</a>
                     </li>
                     <li class="nav-item">
@@ -163,19 +165,19 @@ $(document).ready(function(){ //using send button
 		$query=mysqli_query($conn,"select * from `chat_room`");
 		$row=mysqli_fetch_array($query);
 	?>
-				<div>
+				<form class="form">
+				<div id="div">
 				<tr>
 				<td><?php echo $row['chat_room_name']; ?></td><br><br>
 				</tr>
 				</div>
 			<tr>
 				<td>
-				<div id="result" style="overflow-y:scroll; height:500px; width: 800px;"></div>
-				<form class="form">
+				<div id="result" style="overflow:scroll; height:500px; width: 800px; border: 2px black solid; flex-direction: column-reverse;"></div>
 					<!--<input type="text" id="msg">--><br/>
 					<textarea id="msg" rows="4" cols="75"></textarea><br/>
 					<input type="hidden" value="<?php echo $row['chat_room_id']; ?>" id="id">
-					<button type="button" id="send_msg" class="form-control btn btn-dark rounded submit px-3">Send</button>
+					<button type="button"  onclick='scrollDown()' id="send_msg" class="form-control btn btn-dark rounded submit px-3">Send</button>
 				</form>
 				</td>
 			</tr>
