@@ -3,7 +3,6 @@ $api=file_get_contents("https://newsapi.org/v2/top-headlines?country=us&category
 $news=json_decode($api,true);
 
 session_start();
-$_SESSION["username"] = $username;
 ?>
 <!DOCTYPE html>
 <html lang="en">

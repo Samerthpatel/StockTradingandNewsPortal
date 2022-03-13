@@ -1,12 +1,10 @@
 <?php
+	include('pages/conn.php');
 	session_start();
 	if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
 	header('location:index.php');
     exit();
 	}
-	
-	$uquery=mysqli_query($conn,"SELECT * FROM `user` WHERE userid='".$_SESSION['userid']."'");
-	$urow=mysqli_fetch_assoc($uquery);
 ?>
 <!DOCTYPE html>
 <html>

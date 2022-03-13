@@ -1,7 +1,9 @@
 <?php
     session_start();
-    if(!isset($_SESSION['username'])) {
-		header("Location: ../index.php");
+    session_start();
+	if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
+	header('location:../index.php');
+    exit();
 	}
 ?>
 

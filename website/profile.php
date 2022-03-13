@@ -4,11 +4,11 @@
 	 require_once('../rabbitmq/get_host_info.inc');
 	 require_once('../rabbitmq/rabbitMQLib.inc');
  
-     $username = $_SESSION["username"];
+     $userid = $_SESSION["userid"];
 	 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 	 $request = array();
 		 $request['type'] = "profile";
-		 $request['username'] = $username;
+		 $request['userid'] = $userid;
 		 $response = $client->send_request($request);
 
 ?>
