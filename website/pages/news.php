@@ -3,6 +3,10 @@ $api=file_get_contents("https://newsapi.org/v2/top-headlines?country=us&category
 $news=json_decode($api,true);
 
 session_start();
+if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
+	header('location:../index.php');
+    exit();
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,7 +74,10 @@ session_start();
                         </a>
                     </li>
                     <li class="nav-item">
-						<a class="nav-link" href="../profile.php?userid=<?php echo $_SESSION['userid']; ?>"><?php echo $urow['your_name']; ?></a>
+                    <a class="nav-link"
+                           href="../profile.php">
+                          Profile
+                        </a>                               
                     </li>
                 </ul>
             </div>
