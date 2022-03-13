@@ -1,13 +1,22 @@
 <?php
-	include ('pages/conn.php');
 	session_start();
-	if(isset($_POST['msg'])){		
-		$msg = addslashes($_POST['msg']);
-		$id = $_POST['id'];
-		mysqli_query($conn,"insert into `chat` (chat_room_id, chat_msg, userid, chat_date) values ('$id', '$msg' , '".$_SESSION['userid']."', '$date')") or die(mysqli_error());
-	}
+	 require_once('../rabbitmq/path.inc');
+	 require_once('../rabbitmq/get_host_info.inc');
+	 require_once('../rabbitmq/rabbitMQLib.inc');
+	
+	 $userid = $_SESSION["userid"];
+	 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+	 if(isset($_POST['msg'])){		
+	 $request = array();
+		 $request['type'] = "sendchat";
+		 $request['userid'] = $userid;
+		 $request['msg'] = addslashes($_POST['msg']);
+		 $request['id'] = $_POST['id'];
+		 $response = $client->send_request($request);
+	 }
 ?>
 <?php
+	include ('pages/conn.php');
 	if(isset($_POST['res'])){
 		$id = $_POST['id'];
 	?>
