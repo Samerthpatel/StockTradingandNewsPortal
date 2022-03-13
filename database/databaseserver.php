@@ -21,6 +21,14 @@ function requestProcessor($request){
 	print_r($request);
 	return signUp($request['username'],$request['password'],$request['name'],$request['email'],$request['phone']);
 
+	case "dash":
+		print_r($request);
+		return doDash($request['username'],);
+
+	case "profile":
+		print_r($request);
+		return getProfile($request['username'],);
+
     case "validate_session":
       return doValidate($request['sessionId']);
     }
@@ -63,6 +71,19 @@ function signUp($username, $password, $name, $email, $phone){
 	}
 
 }
+
+function getProfile($username){
+	global $configs;
+	//Initialize the connection to the database.
+	$con = mysqli_connect ($configs['SQL_Server'],$configs['SQL_User'],$configs['SQL_Pass'],$configs['SQL_db']);
+	$user = "select * from user where username = '$username'";
+		$result = $con->query($user);
+		$row = $result->fetch_assoc();	
+		$response = array('username' => $row['username'],'name' => $row['your_name'], 'email' => $row['email'], 'id'=> $row['userid'], 'password'=> $row['password'], 'phone'=> $row['phone']);
+		$response['history'] = array();	
+		return $response;
+}
+
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
 echo "testRabbitMQServer BEGIN".PHP_EOL;

@@ -27,7 +27,6 @@ $request = array();
 			if ($response == "0"){
 				session_start();
 				$_SESSION["username"] = $username;
-				$_SESSION['userid']=$row['userid'];
 				header("location: ../pages/dash.php");
 			}
 			 else {

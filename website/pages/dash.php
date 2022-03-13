@@ -1,8 +1,10 @@
 <?php
     session_start();
-    $_SESSION["username"] = $username;
-
+    if(!isset($_SESSION['username'])) {
+		header("Location: ../index.php");
+	}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,7 +72,10 @@
                         </a>
                     </li>
                     <li class="nav-item">
-						<a class="nav-link" href="../profile.php?username=<?php echo $_SESSION['username']; ?>"><?php echo $_SESSION['username']; ?></a>
+                    <a class="nav-link"
+                           href="../profile.php">
+                          Profile
+                        </a>                    
                     </li>
                 </ul>
             </div>
