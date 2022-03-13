@@ -1,5 +1,9 @@
 <?php
 	session_start();
+    if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
+        header('location:index.php');
+        exit();
+        }
 	 require_once('../rabbitmq/path.inc');
 	 require_once('../rabbitmq/get_host_info.inc');
 	 require_once('../rabbitmq/rabbitMQLib.inc');
@@ -85,7 +89,10 @@
                         </a>
                     </li>
                     <li class="nav-item">
-						<a class="nav-link" href="profile.php?userid=<?php echo $_SESSION['userid']; ?>"><?php echo $urow['your_name']; ?></a>
+                    <a class="nav-link"
+                           href="profile.php">
+                          Profile
+                        </a>                               
                     </li>
                 </ul>
             </div>
