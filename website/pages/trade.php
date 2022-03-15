@@ -1,7 +1,10 @@
-<?php
-$api=file_get_contents("https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=767022eecc34405bbc4f2c84556fdcf5");
-$news=json_decode($api,true);
 
+<?php
+$name = htmlspecialchars($_REQUEST['fname']); 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$api=file_get_contents("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$name&apikey=5H2X5E07Q3FPXXP9");
+$news=json_decode($api,true);
+}
 session_start();
 if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
 	header('location:../index.php');
@@ -13,14 +16,15 @@ if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<link rel="stylesheet" href="../bootstrap-4.3.1-dist/css/style.css">
 	<link rel="stylesheet" href="../bootstrap-4.3.1-dist/css/bootstrap.css">
 	<link rel="stylesheet" href="../bootstrap-4.3.1-dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../bootstrap-4.3.1-dist/css/styles.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News</title>
+    <title>trade</title>
 </head>
+<body>
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand text-success" href="#">
@@ -83,30 +87,45 @@ if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
             </div>
         </div>
     </nav>
-<body style="margin-left: 80px; margin-right: 80px;">
-</br>
-</br>
-<h3 style="text-align: center;"> News </h3>
-</br>
-</br>
-<div class="row">
-<?php foreach($news['articles'] as $value) {?>
-<div class="col  mb-2">
-<div class="card h-100" style="width: 20rem;">
-  <img class="card-img-top" src="<?=$value['urlToImage']?>" style="width: 20rem; height: 150px;"/>
-    <div class="card-body">
-    <h5 class="card-title"><?=$value['title']?></h5>
-    <p class="card-text"><?=$value['publishedAt']?></p>
-    <div class="scrollable" style="overflow-y: auto; emax-height: 300px;">
-    <p class="card-text"><?=$value['description']?></p>
-    </div>
-    <div class="card-footer mt-auto">
-    <a href="<?=$value['url']?>" style="color:#FF0000;">readmore</a>
-    </div>
-</div>
-</div>
-</div>
+    <br>
+    <br>
+    <br>
+    <form class="form-inline" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>" style="margin:auto; width:250px; text-align:center;" >
+  <div class="form-group mx-sm-3 mb-2">
+  <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="Stock Symbol:">
+    <label for="fname" class="sr-only">Stock Symbol</label>
+    <input type="text" class="form-control" id="fname" name="fname" placeholder="TSLA">
+  <button type="submit" class="form-control btn btn-dark rounded submit px-3" style="margin-left:20px;"value="Submit">Enter</button>
+  </div>
+</form>
+<?php foreach($news as $value) {?>
+<table class="table table-hover" style="margin: 0 auto; width:150px">
+  <tr>
+    <th>Symbol:</th>
+    <th><?=$value['01. symbol']?></th>
+  </tr>
+  <tr>
+    <th>Price:</th>
+    <td><?=$value['05. price']?></td>
+  </tr>
+  <tr>
+    <th>Open:</th>
+    <td><?=$value['02. open']?></td>
+  </tr>
+  <tr>
+    <th>High:</th>
+    <td><?=$value['03. high']?></td>
+  </tr>
+  <tr>
+    <th>Low:</th>
+    <td><?=$value['04. low']?></td>
+  </tr>
+  <tr>
+    <th>Volume:</th>
+    <td><?=$value['06. volume']?></td>
+  </tr>
+</table>
 <?php } ?>
-</div>
+<button type="button" class="btn btn-dark rounded submit" style="margin:0;" value="Submit">Trade</button>
 </body>
 </html>
