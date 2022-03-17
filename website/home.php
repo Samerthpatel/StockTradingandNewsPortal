@@ -162,13 +162,21 @@ $(document).ready(function(){ //using send button
     </nav>
 <table id="chat_room" align="center">
 	<?php
-		$query=mysqli_query($conn,"select * from `chat_room`");
-		$row=mysqli_fetch_array($query);
+	require_once('../rabbitmq/path.inc');
+	require_once('../rabbitmq/get_host_info.inc');
+	require_once('../rabbitmq/rabbitMQLib.inc');
+
+	$userid = $_SESSION["userid"];
+	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+	$request = array();
+		$request['type'] = "chatroom";
+		$request['userid'] = $userid;
+		$response = $client->send_request($request);
 	?>
 				<form class="form">
 				<div id="div">
 				<tr>
-				<td><?php echo $row['chat_room_name']; ?></td><br><br>
+				<td><?php echo $response['chat_room_name']; ?></td><br><br>
 				</tr>
 				</div>
 			<tr>
@@ -176,7 +184,7 @@ $(document).ready(function(){ //using send button
 				<div id="result" style="overflow:scroll; height:500px; width: 800px; border: 2px black solid; flex-direction: column-reverse;"></div>
 					<!--<input type="text" id="msg">--><br/>
 					<textarea id="msg" rows="4" cols="75"></textarea><br/>
-					<input type="hidden" value="<?php echo $row['chat_room_id']; ?>" id="id">
+					<input type="hidden" value="<?php echo $response['chat_room_id']; ?>" id="id">
 					<button type="button"  onclick='scrollDown()' id="send_msg" class="form-control btn btn-dark rounded submit px-3">Send</button>
 				</form>
 				</td>

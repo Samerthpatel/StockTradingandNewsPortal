@@ -90,6 +90,9 @@ if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
     <br>
     <br>
     <br>
+<div class="container">
+  <div class="row">
+  <div class="col-lg">
     <form class="form-inline" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>" style="margin:auto; width:250px; text-align:center;" >
   <div class="form-group mx-sm-3 mb-2">
   <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="Stock Symbol:">
@@ -126,6 +129,11 @@ if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
   </tr>
 </table>
 <?php } ?>
+</div>
+<div class="col-lg">
 <button type="button" class="btn btn-dark rounded submit" style="margin:0;" value="Submit">Trade</button>
+</div>
+</div>
+</div>
 </body>
 </html>

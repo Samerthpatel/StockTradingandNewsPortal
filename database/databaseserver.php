@@ -41,6 +41,10 @@ function requestProcessor($request){
 		print_r($request);
 		return getChat($request['userid'], $request['id'],);
 
+	case "chatroom":
+		print_r($request);
+		return chatRoom($request['userid'],);
+
     case "validate_session":
       return doValidate($request['sessionId']);
     }
@@ -126,7 +130,7 @@ function sendChat($userid, $msg, $id){
 	//Initialize the connection to the database.
 	$con = mysqli_connect ($configs['SQL_Server'],$configs['SQL_User'],$configs['SQL_Pass'],$configs['SQL_db']);
 	$date=date('F j, Y g:i:a');
-	mysqli_query($con,"insert into `chat` (chat_room_id, chat_msg, userid, chat_date) values ('$id', '$msg' , '$userid', '$date')") or die(mysqli_error());
+	mysqli_query($con,"insert into `chat` (chat_room_id, chat_msg, userid, chat_date) values ('$id', '$msg' , '$userid', '$date')");
 		return true;
 }
 
@@ -136,10 +140,20 @@ function getChat($userid, $id){
 	$con = mysqli_connect ($configs['SQL_Server'],$configs['SQL_User'],$configs['SQL_Pass'],$configs['SQL_db']);
 	$user = "select * from `chat` left join `user` on user.userid=chat.userid where chat_room_id='$id' order by chat_date asc";
 	$result = $con->query($user);
-	$row = $result->fetch_all();		
-	$response = array('chat_date' => $row['chat_date'],'your_name' => $row['your_name'], 'chat_msg' => $row['chat_msg']);
-	$response['history'] = array();	
+	$row = $result->fetch_all();
+	$response = json_encode($row);
 	return $response;
+}
+function chatRoom($userid){
+	global $configs;
+	//Initialize the connection to the database.
+	$con = mysqli_connect ($configs['SQL_Server'],$configs['SQL_User'],$configs['SQL_Pass'],$configs['SQL_db']);
+	$user = "select * from `chat_room`";
+		$result = $con->query($user);
+		$row = $result->fetch_assoc();	
+		$response = array('chat_room_name' => $row['chat_room_name'], 'chat_room_id' => $row['chat_room_id']);
+		$response['history'] = array();	
+		return $response;
 }
 
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
