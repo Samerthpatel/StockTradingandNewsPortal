@@ -140,7 +140,7 @@ $(document).ready(function(){ //using send button
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="trade.php">
+                           href="pages/trade.php">
                           Trade 
                         </a>
                     </li>

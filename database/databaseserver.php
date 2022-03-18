@@ -44,6 +44,10 @@ function requestProcessor($request){
 	case "chatroom":
 		print_r($request);
 		return chatRoom($request['userid'],);
+	
+	case "getbalance":
+		print_r($request);
+		return getBalance($request['userid'],);
 
     case "validate_session":
       return doValidate($request['sessionId']);
@@ -152,6 +156,18 @@ function chatRoom($userid){
 		$result = $con->query($user);
 		$row = $result->fetch_assoc();	
 		$response = array('chat_room_name' => $row['chat_room_name'], 'chat_room_id' => $row['chat_room_id']);
+		$response['history'] = array();	
+		return $response;
+}
+
+function getBalance($userid){
+	global $configs;
+	//Initialize the connection to the database.
+	$con = mysqli_connect ($configs['SQL_Server'],$configs['SQL_User'],$configs['SQL_Pass'],$configs['SQL_db']);
+	$user = "select * from user where userid = '$userid'";
+		$result = $con->query($user);
+		$row = $result->fetch_assoc();	
+		$response = array('balance' => $row['balance']);
 		$response['history'] = array();	
 		return $response;
 }

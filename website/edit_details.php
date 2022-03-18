@@ -77,7 +77,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="trade.php">
+                           href="pages/trade.php">
                           Trade 
                         </a>
                     </li>
@@ -128,7 +128,7 @@
 	</tr>
 
 	<tr>
-		<td><input type="submit" name="submit" class="button button2"></td>
+		<td><input type="submit" name="submit" class="btn btn-dark rounded submit px-3"></td>
 	</tr>
 	</form>
 
@@ -137,7 +137,7 @@
 	</tr>
 
 	<tr>
-		<td><button type="button" class="form-control btn btn-dark rounded submit px-3" /><a href="profile.php?userid=<?php echo $_SESSION['userid']; ?>">back to Profile</a></button></td>
+		<td><button type="button" class="btn btn-dark rounded submit px-3" /><a href="profile.php?userid=<?php echo $_SESSION['userid']; ?>">back to Profile</a></button></td>
 	</tr>
 </table>
 </body>

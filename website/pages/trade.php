@@ -2,14 +2,27 @@
 <?php
 $name = htmlspecialchars($_REQUEST['fname']); 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-$api=file_get_contents("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$name&apikey=5H2X5E07Q3FPXXP9");
+$api=file_get_contents("https://api.stockdata.org/v1/data/quote?symbols=$name&api_token=tN7dV7K9FFMKGh49Bf97U2Zad8onSxbWxRoaCOwU");
+$apis=file_get_contents("https://api.stockdata.org/v1/news/all?symbols=$name&filter_entities=true&language=en&api_token=tN7dV7K9FFMKGh49Bf97U2Zad8onSxbWxRoaCOwU");
 $news=json_decode($api,true);
+$return=json_decode($apis,true);
 }
 session_start();
 if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
 	header('location:../index.php');
     exit();
 	}
+
+require_once('../../rabbitmq/path.inc');
+require_once('../../rabbitmq/get_host_info.inc');
+require_once('../../rabbitmq/rabbitMQLib.inc');
+
+$userid = $_SESSION["userid"];
+	  $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+	  $request = array();
+		$request['type'] = "getbalance";
+		$request['userid'] = $userid;
+		$response = $client->send_request($request);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,10 +102,14 @@ if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
     </nav>
     <br>
     <br>
+    <div>
+<h4>Account Balance: $ <?php echo $response['balance']; ?></h4>
+    </div>
     <br>
-<div class="container">
+    <br>
+<div class="container-fluid">
   <div class="row">
-  <div class="col-lg">
+  <div class="col-4" style="background-color:grey;">
     <form class="form-inline" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>" style="margin:auto; width:250px; text-align:center;" >
   <div class="form-group mx-sm-3 mb-2">
   <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="Stock Symbol:">
@@ -101,37 +118,64 @@ if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
   <button type="submit" class="form-control btn btn-dark rounded submit px-3" style="margin-left:20px;"value="Submit">Enter</button>
   </div>
 </form>
-<?php foreach($news as $value) {?>
-<table class="table table-hover" style="margin: 0 auto; width:150px">
+<form>
+<?php foreach($news['data'] as $value) {?>
+<table class="table table-hover" style="margin: auto; width:200px">
   <tr>
-    <th>Symbol:</th>
-    <th><?=$value['01. symbol']?></th>
+    <th>Company Name:</th>
+    <th><?=$value['name']?></th>
+  </tr>
+  <tr>
+    <th>Ticker:</th>
+    <td><?=$value['ticker']?></td>
   </tr>
   <tr>
     <th>Price:</th>
-    <td><?=$value['05. price']?></td>
+    <td>$ <?=$value['price']?></td>
   </tr>
   <tr>
-    <th>Open:</th>
-    <td><?=$value['02. open']?></td>
-  </tr>
-  <tr>
-    <th>High:</th>
-    <td><?=$value['03. high']?></td>
-  </tr>
-  <tr>
-    <th>Low:</th>
-    <td><?=$value['04. low']?></td>
+    <th>Day Change:</th>
+    <td><?=$value['day_change']?> %</td>
   </tr>
   <tr>
     <th>Volume:</th>
-    <td><?=$value['06. volume']?></td>
+    <td><?=$value['volume']?></td>
+  </tr>
+  <tr>
+    <th>Market Cap:</th>
+    <td><?=$value['market_cap']?></td>
   </tr>
 </table>
 <?php } ?>
 </div>
-<div class="col-lg">
-<button type="button" class="btn btn-dark rounded submit" style="margin:0;" value="Submit">Trade</button>
+<div class="col-4" style="background-color:blue;">
+<br>
+<br>
+<div class="form-group">
+<h7 class="mb-4">Shares: </h7>
+    <input type="text" class="textbox rounded-left" id="buyshares" name="buyshares" placeholder="enter share count" required />
+  </div>
+<button type="button" class="btn btn-dark rounded submit" style="margin:0;" value="Submit">Buy</button>
+</div>
+</form>
+<div class="col" style="background-color:yellow;">
+<?php foreach($return['data'] as $value) {?>
+<div class="col  mb-2">
+<div class="card h-100" style="width: 20rem;">
+  <img class="card-img-top" src="<?=$value['image_url']?>" style="width: 20rem; height: 150px;"/>
+    <div class="card-body">
+    <h5 class="card-title"><?=$value['title']?></h5>
+    <p class="card-text"><?=$value['published_at']?></p>
+    <div class="scrollable" style="overflow-y: auto; emax-height: 300px;">
+    <p class="card-text"><?=$value['description']?></p>
+    </div>
+    <div class="card-footer mt-auto">
+    <a href="<?=$value['url']?>" style="color:#FF0000;">readmore</a>
+    </div>
+</div>
+</div>
+</div>
+<?php } ?>
 </div>
 </div>
 </div>
