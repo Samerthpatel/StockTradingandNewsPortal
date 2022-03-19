@@ -23,6 +23,9 @@ $userid = $_SESSION["userid"];
 		$request['type'] = "getbalance";
 		$request['userid'] = $userid;
 		$response = $client->send_request($request);
+    $trades = json_decode($response, true);
+    $balance = $trades[0][7];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -103,7 +106,7 @@ $userid = $_SESSION["userid"];
     <br>
     <br>
     <div>
-<h4>Account Balance: $ <?php echo $response['balance']; ?></h4>
+<h4>Account Balance: $ <?php echo $balance; ?></h4>
     </div>
     <br>
     <br>
@@ -148,7 +151,7 @@ $userid = $_SESSION["userid"];
 </table>
 <?php } ?>
 </div>
-<div class="col-4 shadow-lg p-3 mb-5 bg-white rounded">
+<div class="col shadow-lg p-3 mb-5 bg-white rounded">
 <br>
 <br>
 <div class="form-group" style="text-align: center";>
@@ -165,7 +168,8 @@ $userid = $_SESSION["userid"];
   <button type="submit" class="btn btn-dark rounded submit" style="margin:0;" value="sell" id="sell" name="sell">Sell</button>
 </div>
 </form>
-<div class="col shadow-lg p-3 mb-5 bg-white rounded">
+<div class="col-5 shadow-lg p-3 mb-5 bg-white rounded">
+<div class="row">
 <?php foreach($return['data'] as $value) {?>
 <div class="col  mb-2">
 <div class="card h-100" style="width: 20rem;">
@@ -186,9 +190,10 @@ $userid = $_SESSION["userid"];
 </div>
 </div>
 </div>
+</div>
 <div>
 <h3>Portfolio</h3>
-<?php foreach($trades[0] as $value) {?>
+<?php foreach($trades as $value) {?>
   <table class="table table-hover">
   <thead>
     <tr>

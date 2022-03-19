@@ -43,6 +43,15 @@
             $request['stockprice'] = $_POST["stockprice"];
             $response = $client->send_request($request);
 
+            if ($response == true){
+                echo "<script>window.alert('trade placed.')</script>";
+				header("location: ../pages/trade.php");
+			}
+			 else {
+				echo '<div class="alert alert-danger" style="text: center;">Error: Traded didnt go through.</div>';
+				header('Refresh: 3; url= ../pages/trade.php');
+			}
+
     }else{
         $message="broken.";
         echo $message;

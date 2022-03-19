@@ -176,12 +176,11 @@ function getBalance($userid){
 	global $configs;
 	//Initialize the connection to the database.
 	$con = mysqli_connect ($configs['SQL_Server'],$configs['SQL_User'],$configs['SQL_Pass'],$configs['SQL_db']);
-	$user = "select * from user where userid = '$userid'";
-		$result = $con->query($user);
-		$row = $result->fetch_assoc();	
-		$response = array('balance' => $row['balance']);
-		$response['history'] = array();	
-		return $response;
+	$user = "SELECT stock.*, user.balance from stock join user on stock.userid=user.userid where stock.userid='$userid'";
+	$result = $con->query($user);
+	$row = $result->fetch_all();
+	$response = json_encode($row);
+	return $response;
 }
 
 function buyStock($userid, $stockname, $buyshares, $stockprice){
@@ -190,9 +189,37 @@ function buyStock($userid, $stockname, $buyshares, $stockprice){
 	$con = mysqli_connect ($configs['SQL_Server'],$configs['SQL_User'],$configs['SQL_Pass'],$configs['SQL_db']);
 	$date=date('F j, Y g:i:a');
 	$total = $buyshares * $stockprice;
-	mysqli_query($con,"UPDATE user SET balance = balance - $total WHERE userid='$userid' ")or die(mysqli_error($con));
-	mysqli_query($con,"INSERT INTO stock(userid, stockname, stockprice, stockshares, total, date) VALUES ('$userid', '$stockname' , '$stockprice', '$buyshares', '$total', '$date')")or die(mysqli_error($con));
-	return true;
+	$check = mysqli_query($con, "SELECT * FROM stock where userid='$userid' && stockname='$stockname'");
+
+	if (mysqli_num_rows($check)<1){
+
+		mysqli_query($con,"INSERT INTO stock(userid, stockname, stockprice, stockshares, total, date) VALUES ('$userid', '$stockname' , '$stockprice', '$buyshares', '$total', '$date')")or die(mysqli_error($con));
+		mysqli_query($con,"UPDATE user SET balance = balance - $total WHERE userid='$userid' ")or die(mysqli_error($con));
+		return true;
+	}else
+		mysqli_query($con,"UPDATE user SET balance = balance - $total WHERE userid='$userid' ")or die(mysqli_error($con));
+		mysqli_query($con,"UPDATE stock SET stockprice = $stockprice, stockshares = stockshares + $buyshares, total = total + $total where userid='$userid' && stockname='$stockname' " )or die(mysqli_error($con));
+		return true;
+
+}
+
+function sellStock($userid, $stockname, $sellshares, $stockprice){
+	global $configs;
+	//Initialize the connection to the database.
+	$con = mysqli_connect ($configs['SQL_Server'],$configs['SQL_User'],$configs['SQL_Pass'],$configs['SQL_db']);
+	$date=date('F j, Y g:i:a');
+	$total = $sellshares * $stockprice;
+	$check = mysqli_query($con, "SELECT * FROM stock where userid='$userid' && stockname='$stockname'");
+
+	if (mysqli_num_rows($check)<1){
+
+		return false;
+
+	}else
+
+		mysqli_query($con,"UPDATE user SET balance = balance + $total WHERE userid='$userid' ")or die(mysqli_error($con));
+		mysqli_query($con,"UPDATE stock SET stockprice = $stockprice, stockshares = stockshares - $sellshares, total = total - $total where userid='$userid' && stockname='$stockname' " )or die(mysqli_error($con));
+		return true;
 
 }
 
