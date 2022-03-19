@@ -16,20 +16,30 @@
 	 }
 ?>
 <?php
+	session_start();
 	include ('pages/conn.php');
+	require_once('../rabbitmq/path.inc');
+	require_once('../rabbitmq/get_host_info.inc');
+	require_once('../rabbitmq/rabbitMQLib.inc');
+
+	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+	$userid = $_SESSION["userid"];
 	if(isset($_POST['res'])){
-		$id = $_POST['id'];
+		$request['type'] = "getchat";
+		$request['userid'] = $userid;
+		$request['id'] = $_POST['id'];
+		$response = $client->send_request($request);
+		$chat = json_decode($response, true);
 	?>
 	<?php
-		$query=mysqli_query($conn,"select * from `chat` left join `user` on user.userid=chat.userid where chat_room_id='$id' order by chat_date asc") or die(mysqli_error());
-		while($row=mysqli_fetch_array($query)){
 	?>	
 		<div>
-			<?php echo $row['chat_date']; ?><br>
-			<?php echo $row['your_name']; ?>: <?php echo $row['chat_msg']; ?><br>
+			<?php foreach($chat as $value) {?>
+			<?php echo $value['4']; ?><br>
+			<?php echo $value['6']; ?>: <?php echo $value['2']; ?><br>
+			<?php } ?>
 		</div>
 		<br>
 	<?php
 		}
-	}	
 ?>
