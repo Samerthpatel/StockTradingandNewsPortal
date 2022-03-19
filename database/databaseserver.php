@@ -219,6 +219,7 @@ function sellStock($userid, $stockname, $sellshares, $stockprice){
 
 		mysqli_query($con,"UPDATE user SET balance = balance + $total WHERE userid='$userid' ")or die(mysqli_error($con));
 		mysqli_query($con,"UPDATE stock SET stockprice = $stockprice, stockshares = stockshares - $sellshares, total = total - $total where userid='$userid' && stockname='$stockname' " )or die(mysqli_error($con));
+		mysqli_query($con, "DELETE FROM stock WHERE stockshares = 0");
 		return true;
 
 }
