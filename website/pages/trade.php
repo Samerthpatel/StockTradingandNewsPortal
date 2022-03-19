@@ -109,7 +109,7 @@ $userid = $_SESSION["userid"];
     <br>
 <div class="container-fluid">
   <div class="row">
-  <div class="col-4" style="background-color:grey;">
+  <div class="col-4 shadow-lg p-3 mb-5 bg-white rounded">
     <form class="form-inline" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>" style="margin:auto; width:250px; text-align:center;" >
   <div class="form-group mx-sm-3 mb-2">
   <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="Stock Symbol:">
@@ -118,47 +118,54 @@ $userid = $_SESSION["userid"];
   <button type="submit" class="form-control btn btn-dark rounded submit px-3" style="margin-left:20px;"value="Submit">Enter</button>
   </div>
 </form>
-<form>
+<form method="post" action="../messaging/tradestock.php">
 <?php foreach($news['data'] as $value) {?>
 <table class="table table-hover" style="margin: auto; width:200px">
   <tr>
     <th>Company Name:</th>
-    <th><?=$value['name']?></th>
+    <td><input type="text" readonly class="form-control-plaintext" id="company" name="company" value="<?=$value['name']?>"></td>
   </tr>
   <tr>
     <th>Ticker:</th>
-    <td><?=$value['ticker']?></td>
+    <td><input type="text" readonly class="form-control-plaintext" id="stockname" name="stockname" value="<?=$value['ticker']?>"></td>
   </tr>
   <tr>
     <th>Price:</th>
-    <td>$ <?=$value['price']?></td>
+    <td><input type="text" readonly class="form-control-plaintext" id="stockprice" name="stockprice" value="<?=$value['price']?>"></td>
   </tr>
   <tr>
     <th>Day Change:</th>
-    <td><?=$value['day_change']?> %</td>
+    <td><input type="text" readonly class="form-control-plaintext" id="day_change" name="day_change" value="<?=$value['day_change']?> %"></td>
   </tr>
   <tr>
     <th>Volume:</th>
-    <td><?=$value['volume']?></td>
+    <td><input type="text" readonly class="form-control-plaintext" id="volume" name="volume" value="<?=$value['volume']?>"></td>
   </tr>
   <tr>
     <th>Market Cap:</th>
-    <td><?=$value['market_cap']?></td>
+    <td><input type="text" readonly class="form-control-plaintext" id="market_cap" name="market_cap" value="<?=$value['market_cap']?>"></td>
   </tr>
 </table>
 <?php } ?>
 </div>
-<div class="col-4" style="background-color:blue;">
+<div class="col-4 shadow-lg p-3 mb-5 bg-white rounded">
 <br>
 <br>
-<div class="form-group">
+<div class="form-group" style="text-align: center";>
 <h7 class="mb-4">Shares: </h7>
-    <input type="text" class="textbox rounded-left" id="buyshares" name="buyshares" placeholder="enter share count" required />
+    <input type="text" class="textbox rounded-left" id="buyshares" name="buyshares" placeholder="enter share count"/>
   </div>
-<button type="button" class="btn btn-dark rounded submit" style="margin:0;" value="Submit">Buy</button>
+<button type="submit" class="btn btn-dark rounded submit" style="margin:0;" id="buy" value="buy" name="buy">Buy</button>
+<div class="form-group" style="text-align: center";>
+  <br>
+  <br>
+<h7 class="mb-4">Shares: </h7>
+    <input type="text" class="textbox rounded-left" id="sellshares" name="sellshares" placeholder="enter share count"/>
+  </div>
+  <button type="submit" class="btn btn-dark rounded submit" style="margin:0;" value="sell" id="sell" name="sell">Sell</button>
 </div>
 </form>
-<div class="col" style="background-color:yellow;">
+<div class="col shadow-lg p-3 mb-5 bg-white rounded">
 <?php foreach($return['data'] as $value) {?>
 <div class="col  mb-2">
 <div class="card h-100" style="width: 20rem;">
@@ -178,6 +185,31 @@ $userid = $_SESSION["userid"];
 <?php } ?>
 </div>
 </div>
+</div>
+<div>
+<h3>Portfolio</h3>
+<?php foreach($trades[0] as $value) {?>
+  <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Company Ticker:</th>
+      <th scope="col">Shares:</th>
+      <th scope="col">Price:</th>
+      <th scope="col">Total invested:</th>
+      <th scope="col">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><?=$value['1']?></td>
+      <td><?=$value['3']?></td>
+      <td><?=$value['2']?></td>
+      <td><?=$value['4']?></td>
+      <td><?=$value['5']?></td>
+    </tr>
+  </tbody>
+</table>
+<?php } ?>
 </div>
 </body>
 </html>

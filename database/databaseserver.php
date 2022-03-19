@@ -18,8 +18,8 @@ function requestProcessor($request){
       return doLogin($request['username'],$request['password']);
 
 	case "signup":
-	print_r($request);
-	return signUp($request['username'],$request['password'],$request['name'],$request['email'],$request['phone']);
+		print_r($request);
+		return signUp($request['username'],$request['password'],$request['name'],$request['email'],$request['phone']);
 
 	case "profile":
 		print_r($request);
@@ -50,9 +50,21 @@ function requestProcessor($request){
 		return getBalance($request['userid'],);
 
     case "validate_session":
-      return doValidate($request['sessionId']);
-    }
-  }
+      	return doValidate($request['sessionId']);
+
+	case "buystock":
+		print_r($request);
+		return buyStock($request['userid'], $request['stockname'], $request['buyshares'], $request['stockprice'],);
+
+	case "sellstock":
+		print_r($request);
+		return sellStock($request['userid'], $request['stockname'], $request['sellshares'], $request['stockprice'],);
+  
+	case "showtrades":
+		print_r($request);
+		return showTrades($request['userid'],);
+	}
+}
 
 function doLogin($username, $password){
   global $configs;
@@ -171,6 +183,19 @@ function getBalance($userid){
 		$response['history'] = array();	
 		return $response;
 }
+
+function buyStock($userid, $stockname, $buyshares, $stockprice){
+	global $configs;
+	//Initialize the connection to the database.
+	$con = mysqli_connect ($configs['SQL_Server'],$configs['SQL_User'],$configs['SQL_Pass'],$configs['SQL_db']);
+	$date=date('F j, Y g:i:a');
+	$total = $buyshares * $stockprice;
+	mysqli_query($con,"UPDATE user SET balance = balance - $total WHERE userid='$userid' ")or die(mysqli_error($con));
+	mysqli_query($con,"INSERT INTO stock(userid, stockname, stockprice, stockshares, total, date) VALUES ('$userid', '$stockname' , '$stockprice', '$buyshares', '$total', '$date')")or die(mysqli_error($con));
+	return true;
+
+}
+
 
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
