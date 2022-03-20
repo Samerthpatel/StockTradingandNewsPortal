@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="reserach.php">
+                           href="research.php">
                           Research 
                         </a>
                     </li>

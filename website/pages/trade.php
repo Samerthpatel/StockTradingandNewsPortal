@@ -77,7 +77,7 @@ $userid = $_SESSION["userid"];
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="reserach.php">
+                           href="research.php">
                           Research 
                         </a>
                     </li>

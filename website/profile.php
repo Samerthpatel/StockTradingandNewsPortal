@@ -72,7 +72,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="reserach.php">
+                           href="pages/research.php">
                           Research 
                         </a>
                     </li>
