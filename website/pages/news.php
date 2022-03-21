@@ -1,7 +1,4 @@
 <?php
-$api=file_get_contents("https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=767022eecc34405bbc4f2c84556fdcf5");
-$news=json_decode($api,true);
-
 session_start();
 if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
 	header('location:../index.php');
@@ -90,7 +87,19 @@ if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
 </br>
 </br>
 <div class="row">
-<?php foreach($news['articles'] as $value) {?>
+    
+<?php require_once('../rabbitmq/dmz/path.inc');
+	require_once('../rabbitmq/dmz/get_host_info.inc');
+	require_once('../rabbitmq/dmz/rabbitMQLib.inc');
+ 
+     $userid = $_SESSION["userid"];
+	 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+	 $request = array();
+		 $request['type'] = "getnews";
+		 $request['userid'] = $userid;
+		 $response = $client->send_request($request);
+
+foreach($response['articles'] as $value) {?>
 <div class="col  mb-2">
 <div class="card h-100" style="width: 20rem;">
   <img class="card-img-top" src="<?=$value['urlToImage']?>" style="width: 20rem; height: 150px;"/>
