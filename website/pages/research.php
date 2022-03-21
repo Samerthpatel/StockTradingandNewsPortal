@@ -6,25 +6,10 @@
 <body>
 
 <?php
-session_start();
-if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
-	header('location:../index.php');
-    exit();
-	}
 $name = htmlspecialchars($_REQUEST['stock']); 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    require_once('../rabbitmq/dmz/path.inc');
-	require_once('../rabbitmq/dmz/get_host_info.inc');
-	require_once('../rabbitmq/dmz/rabbitMQLib.inc');
- 
-     $userid = $_SESSION["userid"];
-	 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
-	 $request = array();
-		 $request['type'] = "getdata";
-		 $request['userid'] = $userid;
-         $request['name'] = htmlspecialchars($_REQUEST['stock']);
-		 $response = $client->send_request($request);
+    $url ="https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol=$name&interval=60min&slice=year1month1&apikey=5H2X5E07Q3FPXXP9";
+    $data = file_get_contents($url);
 
     $row = explode("\n",$data);
     $count = count($row)-1;

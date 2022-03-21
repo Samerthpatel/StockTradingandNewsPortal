@@ -1,8 +1,8 @@
 #!/usr/bin/php
 <?php
-require_once('path.inc');
-require_once('get_host_info.inc');
-require_once('rabbitMQLib.inc');
+require_once('../rabbitmq/path.inc');
+require_once('../rabbitmq/get_host_info.inc');
+require_once('../rabbitmq/rabbitMQLib.inc');
 
 $configs = include('server_config.php');
 print_r($configs);
@@ -59,7 +59,7 @@ function requestProcessor($request){
 	case "sellstock":
 		print_r($request);
 		return sellStock($request['userid'], $request['stockname'], $request['sellshares'], $request['stockprice'],);
-	
+  
 	case "showtrades":
 		print_r($request);
 		return showTrades($request['userid'],);
@@ -223,6 +223,7 @@ function sellStock($userid, $stockname, $sellshares, $stockprice){
 		return true;
 
 }
+
 
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
