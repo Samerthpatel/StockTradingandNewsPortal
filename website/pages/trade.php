@@ -117,7 +117,7 @@ $userid = $_SESSION["userid"];
   <div class="form-group mx-sm-3 mb-2">
   <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="Stock Symbol:">
     <label for="fname" class="sr-only">Stock Symbol</label>
-    <input type="text" class="form-control" id="fname" name="fname" placeholder="TSLA">
+    <input type="text" class="form-control" id="fname" name="fname" placeholder="TSLA" value="TSLA">
   <button type="submit" class="form-control btn btn-dark rounded submit px-3" style="margin-left:20px;"value="Submit">Enter</button>
   </div>
 </form>

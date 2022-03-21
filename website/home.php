@@ -1,5 +1,4 @@
 <?php
-	include('pages/conn.php');
 	session_start();
 	if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
 	header('location:index.php');
@@ -162,6 +161,7 @@ $(document).ready(function(){ //using send button
     </nav>
 <table id="chat_room" align="center">
 	<?php
+	session_start();
 	require_once('../rabbitmq/path.inc');
 	require_once('../rabbitmq/get_host_info.inc');
 	require_once('../rabbitmq/rabbitMQLib.inc');

@@ -8,6 +8,18 @@
 <?php
 $name = htmlspecialchars($_REQUEST['stock']); 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    require_once('../../rabbitmq/path.inc');
+	require_once('../../rabbitmq/get_host_info.inc');
+	require_once('../../rabbitmq/rabbitMQLib.inc');
+
+    $userid = $_SESSION["userid"];
+    $client = new rabbitMQClient("testRabbitMQ.ini","dmzServer");
+    $request = array();
+        $request['type'] = "getdata";
+        $request['userid'] = $userid;
+        $request['name'] = htmlspecialchars($_REQUEST['stock']);
+        $response = $client->send_request($request);
+
     $url ="https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol=$name&interval=60min&slice=year1month1&apikey=5H2X5E07Q3FPXXP9";
     $data = file_get_contents($url);
 
@@ -90,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="row" style="margin-left:350px;margin-top:50px;">
             <form class="form-inline" id="form" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
                 <div class="form-group">
-                        <input type="text" id="stock" name="stock" placeholder="Enter Company Symbol" value="Microsoft-MSFT" class="form-control" id="name">
+                        <input type="text" id="stock" name="stock" placeholder="Enter Company Symbol" value="TSLA" class="form-control" id="name">
                 </div>
                 <input type="submit" class="btn btn-success" style="margin-left:20px;"value="Submit" />
             </form>

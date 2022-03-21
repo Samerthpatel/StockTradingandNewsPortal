@@ -35,6 +35,7 @@
 	?>	
 		<div>
 			<?php foreach($chat as $value) {?>
+			</br>
 			<?php echo $value['4']; ?><br>
 			<?php echo $value['6']; ?>: <?php echo $value['2']; ?><br>
 			<?php } ?>
