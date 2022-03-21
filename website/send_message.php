@@ -1,8 +1,8 @@
 <?php
 	session_start();
-	 require_once('../rabbitmq/path.inc');
-	 require_once('../rabbitmq/get_host_info.inc');
-	 require_once('../rabbitmq/rabbitMQLib.inc');
+	 require_once('rabbitmq/path.inc');
+	 require_once('rabbitmq/get_host_info.inc');
+	 require_once('rabbitmq/rabbitMQLib.inc');
 	
 	 $userid = $_SESSION["userid"];
 	 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
@@ -18,9 +18,9 @@
 <?php
 	session_start();
 	include ('pages/conn.php');
-	require_once('../rabbitmq/path.inc');
-	require_once('../rabbitmq/get_host_info.inc');
-	require_once('../rabbitmq/rabbitMQLib.inc');
+	require_once('rabbitmq/path.inc');
+	require_once('rabbitmq/get_host_info.inc');
+	require_once('rabbitmq/rabbitMQLib.inc');
 
 	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 	$userid = $_SESSION["userid"];

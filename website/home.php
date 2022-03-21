@@ -162,9 +162,9 @@ $(document).ready(function(){ //using send button
     </nav>
 <table id="chat_room" align="center">
 	<?php
-	require_once('../rabbitmq/path.inc');
-	require_once('../rabbitmq/get_host_info.inc');
-	require_once('../rabbitmq/rabbitMQLib.inc');
+	require_once('rabbitmq/path.inc');
+	require_once('rabbitmq/get_host_info.inc');
+	require_once('rabbitmq/rabbitMQLib.inc');
 
 	$userid = $_SESSION["userid"];
 	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
