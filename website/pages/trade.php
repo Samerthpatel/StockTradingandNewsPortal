@@ -145,7 +145,7 @@ $userid = $_SESSION["userid"];
     <td><input type="text" readonly class="form-control-plaintext" id="volume" name="volume" value="<?=$value['volume']?>"></td>
   </tr>
   <tr>
-    <th>Market Cap:</th>
+    <th>Market Cap hanee:</th>
     <td><input type="text" readonly class="form-control-plaintext" id="market_cap" name="market_cap" value="<?=$value['market_cap']?>"></td>
   </tr>
 </table>
