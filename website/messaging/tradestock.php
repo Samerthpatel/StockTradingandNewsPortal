@@ -69,31 +69,42 @@ session_start();
             if ($response == true){
             
                 echo "<script>window.alert('trade placed.')</script>";
-                $mail=new PHPMailer(true);
-                $mail->IsSMTP(); // telling the class to use SMTP
-                $mail->SMTPAuth = true; // enable SMTP authentication
-                $mail->SMTPSecure = "ssl"; // sets the prefix to the servier
-                $mail->Host = "smtp.gmail.com"; // sets GMAIL as the SMTP server
-                $mail->Port = 465; // set the SMTP port for the GMAIL server
-                $mail->Username = "cryptocoders69@gmail.com"; // GMAIL username
-                $mail->Password = "IT-490-class"; // GMAIL password
+                // the message
+$msg = "First line of text\nSecond line of text";
 
-                //Typical mail data
-                $mail->AddAddress('rishiradia17@gmail.com', 'Rishi Radia');
-                $mail->SetFrom('cryptocoders69@gmail.com', 'Crypto Coders');
-                $mail->Subject = "Trade Details";
-                $mail->Body = "Below are your trade details";
+// use wordwrap() if lines are longer than 70 characters
+$msg = wordwrap($msg,70);
+$headers = 'From: cryptocoders69@gmail.com'       . "\r\n" .
+'Reply-To: cryptocoders69@gmail.com' . "\r\n" .
+'X-Mailer: PHP/' . phpversion();
 
-                try{
-                    $mail->Send();
-                    echo "Success!";
-                    console.log('worked');
-                } catch(Exception $e){
-                    //Something went bad
-                    echo "Fail - " . $mail->ErrorInfo;
-                    console.log('failed');
-                    console.log($mail->ErrorInfo);
-                }
+// send email
+mail("rishiradia17@gmail.com","My subject",$msg, $headers);
+                // $mail=new PHPMailer(true);
+                // $mail->IsSMTP(); // telling the class to use SMTP
+                // $mail->SMTPAuth = true; // enable SMTP authentication
+                // $mail->SMTPSecure = "ssl"; // sets the prefix to the servier
+                // $mail->Host = "smtp.gmail.com"; // sets GMAIL as the SMTP server
+                // $mail->Port = 465; // set the SMTP port for the GMAIL server
+                // $mail->Username = "cryptocoders69@gmail.com"; // GMAIL username
+                // $mail->Password = "IT-490-class"; // GMAIL password
+
+                // //Typical mail data
+                // $mail->AddAddress('rishiradia17@gmail.com', 'Rishi Radia');
+                // $mail->SetFrom('cryptocoders69@gmail.com', 'Crypto Coders');
+                // $mail->Subject = "Trade Details";
+                // $mail->Body = "Below are your trade details";
+
+                // try{
+                //     $mail->Send();
+                //     echo "Success!";
+                //     console.log('worked');
+                // } catch(Exception $e){
+                //     //Something went bad
+                //     echo "Fail - " . $mail->ErrorInfo;
+                //     console.log('failed');
+                //     console.log($mail->ErrorInfo);
+                // }
 
 				//header("location: ../pages/trade.php");
 			}
