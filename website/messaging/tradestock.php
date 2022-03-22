@@ -76,7 +76,7 @@ $msg = "First line of text\nSecond line of text";
 $msg = wordwrap($msg,70);
 $headers = 'From: cryptocoders69@gmail.com'       . "\r\n" .
 'Reply-To: cryptocoders69@gmail.com' . "\r\n" .
-'X-Mailer: PHP/' . phpversion();
+'X-Mailer: PHP/' . phpversion(); 
 
 // send email
 mail("rishiradia17@gmail.com","My subject",$msg, $headers);
