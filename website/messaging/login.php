@@ -26,13 +26,15 @@ $request = array();
 		echo $payload;
 			if ($response == true){
 				$userid = $response['userid'];
+				$email = $response['email'];
 				session_start();
 				$_SESSION['userid']=$userid;
+				$_SESSION['email']=$email;
 				header("location: ../pages/dash.php");
 			}
 			 else {
 				echo '<div class="alert alert-danger" style="text: center;">Login could not be authenticated.</div>';
-				header('Refresh: 3; url= ../index.html');
+				header('Refresh: 3; url= ../index.php');
 			}
 		?>
 	</div>

@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group">
                         <input type="text" id="stock" name="stock" placeholder="Enter Company Symbol" value="TSLA" class="form-control" id="name">
                 </div>
-                <input type="submit" class="btn btn-success" style="margin-left:20px;"value="Submit" />
+                <input type="submit" class="btn btn-dark rounded submit" style="margin-left:20px;"value="Submit" />
             </form>
         </form>
     </div>

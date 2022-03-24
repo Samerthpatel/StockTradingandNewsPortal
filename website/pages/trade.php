@@ -8,7 +8,7 @@ $news=json_decode($api,true);
 $return=json_decode($apis,true);
 }
 session_start();
-if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
+if (!isset($_SESSION['email']) ||(trim ($_SESSION['email']) == '')) {
 	header('location:../index.php');
     exit();
 	}

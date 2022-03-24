@@ -21,9 +21,10 @@
             $response = $client->send_request($request);
 
             if ($response == true){
-    $email = "rishiradia17@gmail.com";
-    $subject = "Trade Details";
-    $message = "Below are your trade details";
+    $mess = $_SESSION["email"];           
+    $email = $mess;
+    $subject = "Trade Confirmed";
+    $message = "Bought ";
  
  
     //Load composer's autoloader
@@ -94,10 +95,13 @@
             $response = $client->send_request($request);
 
             if ($response == true){
-
-    $email = "rishiradia17@gmail.com";
-    $subject = "Trade Details";
-    $message = "Below are your trade details";
+                $stock = $request['stockname'];
+                $shares = $request['sellshares'];
+                $price = $request['stockprice'];
+                $mess = $_SESSION["email"];           
+                $email = $mess;
+                $subject = "Trade Confirmed";
+                $message = "Sold $shares of $stock for $price dollars";
  
  
     //Load composer's autoloader
