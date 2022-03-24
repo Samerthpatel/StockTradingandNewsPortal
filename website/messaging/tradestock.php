@@ -1,4 +1,8 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '0ff');
+ini_set('log_errors', 'On');
+ini_set('error_log',"/home/parallels/Desktop/it490project/website/my-errors.log");
     session_start();
     require 'vendor/autoload.php';
     use PHPMailer\PHPMailer\PHPMailer;
@@ -75,6 +79,7 @@
 			 else {
 				echo '<div class="alert alert-danger" style="text: center;">Error: Traded didnt go through.</div>';
 				header('Refresh: 3; url= ../pages/trade.php');
+                error_log("trade didin't go thru");
 			}
 
     }elseif(isset($_POST['sell'])){
@@ -151,6 +156,7 @@
 			 else {
 				echo '<div class="alert alert-danger" style="text: center;">Error: Traded didnt go through.</div>';
 				header('Refresh: 3; url= ../pages/trade.php');
+                error_log("trade didn't go thru");
 			}
 
     }else{

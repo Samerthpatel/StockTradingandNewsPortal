@@ -1,5 +1,10 @@
 #!/usr/bin/php
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '0ff');
+ini_set('log_errors', 'On');
+ini_set('error_log',"/home/parallels/Desktop/it490project/website/my-errors.log");
+error_log("test");
 require_once('../rabbitmq/path.inc');
 require_once('../rabbitmq/get_host_info.inc');
 require_once('../rabbitmq/rabbitMQLib.inc');
@@ -76,6 +81,7 @@ function doLogin($username, $password){
 	
 	if (mysqli_num_rows($query)<1){
 		return false;
+		error_log("user was not found in the database");
 	}
 	else{
 		$user = "select * from user where username = '$username'";
@@ -99,6 +105,7 @@ function signUp($username, $password, $name, $email, $phone){
 	if (mysqli_num_rows($query)>0){
 		$response = "1";
 		return $response;
+		error_log("signup didnt work");
 	}
 	else{
 		$insert=mysqli_query($con, "INSERT INTO user(username,password,email,phone,your_name)VALUES('$username','$password','$email','$phone','$name')")or die(mysqli_error($con));
@@ -223,7 +230,6 @@ function sellStock($userid, $stockname, $sellshares, $stockprice){
 		return true;
 
 }
-
 
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 

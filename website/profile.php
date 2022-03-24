@@ -1,5 +1,9 @@
 <?php
 	session_start();
+    error_reporting(E_ALL);
+	ini_set('display_errors', '0ff');
+	ini_set('log_errors', 'On');
+    ini_set('error_log',"/home/parallels/Desktop/it490project/website/my-errors.log");
     if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
         header('location:index.php');
         exit();

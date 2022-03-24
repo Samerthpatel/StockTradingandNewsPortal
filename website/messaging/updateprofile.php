@@ -1,4 +1,8 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '0ff');
+ini_set('log_errors', 'On');
+ini_set('error_log',"/home/parallels/Desktop/it490project/website/my-errors.log");
 session_start();
 require_once('../../rabbitmq/path.inc');
 require_once('../../rabbitmq/get_host_info.inc');
@@ -34,6 +38,8 @@ $request = array();
 			 else {
 				echo '<div class="alert alert-danger" style="text: center;">Signup not completed.</div>';
 				header('Refresh: 3; url= ../index.html');
+				error_log("update profile didn't work");
+
 			}
 		?>
 	</div>

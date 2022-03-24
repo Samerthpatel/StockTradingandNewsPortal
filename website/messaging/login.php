@@ -1,5 +1,9 @@
 #!/usr/bin/php
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '0ff');
+ini_set('log_errors', 'On');
+ini_set('error_log',"/home/parallels/Desktop/it490project/website/my-errors.log");
 require_once('../../rabbitmq/path.inc');
 require_once('../../rabbitmq/get_host_info.inc');
 require_once('../../rabbitmq/rabbitMQLib.inc');
@@ -35,6 +39,7 @@ $request = array();
 			 else {
 				echo '<div class="alert alert-danger" style="text: center;">Login could not be authenticated.</div>';
 				header('Refresh: 3; url= ../index.php');
+				error_log("log in for user unsuccessful");
 			}
 		?>
 	</div>

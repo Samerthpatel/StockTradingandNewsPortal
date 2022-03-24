@@ -4,11 +4,17 @@
 	header('location:index.php');
     exit();
 	}
+	error_reporting(E_ALL);
+	ini_set('display_errors', '0ff');
+	ini_set('log_errors', 'On');
+	ini_set('error_log',"/home/parallels/Desktop/it490project/website/my-errors.log");
+  
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-<title>Public Chat</title>
+<title>Publiini_set('error_log',"/var/www/html/it490project/website/my-errors.log");
+c Chat</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <link rel="stylesheet" href="bootstrap-4.3.1-dist/css/style.css">
 <link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.css">
