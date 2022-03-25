@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '0ff');
 ini_set('log_errors', 'On');
-ini_set('error_log',"/home/parallels/Desktop/it490project/website/my-errors.log");
+ini_set('error_log',"/var/www/htmlit490project/website/my-errors.log");
 error_log("test");
 require_once('../rabbitmq/path.inc');
 require_once('../rabbitmq/get_host_info.inc');
@@ -68,6 +68,9 @@ function requestProcessor($request){
 	case "showtrades":
 		print_r($request);
 		return showTrades($request['userid'],);
+
+	case "request":
+		return getRequest($request['error']);
 	}
 }
 
@@ -229,6 +232,10 @@ function sellStock($userid, $stockname, $sellshares, $stockprice){
 		mysqli_query($con, "DELETE FROM stock WHERE stockshares = 0");
 		return true;
 
+}
+
+function getRequest($response){
+	return $response;
 }
 
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
