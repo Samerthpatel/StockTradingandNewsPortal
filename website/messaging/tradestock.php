@@ -25,10 +25,13 @@ ini_set('error_log',"/var/www/html/it490project/website/my-errors.log");
             $response = $client->send_request($request);
 
             if ($response == true){
+    $company = $request['stockname'];
+    $price = $request['stockprice'];
+    $shares = $request['buyshares'];
     $mess = $_SESSION["email"];           
     $email = $mess;
     $subject = "Trade Confirmed";
-    $message = "Bought ";
+    $message = "Bought $shares of $company for $price dollars. ";
  
  
     //Load composer's autoloader
