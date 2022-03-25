@@ -3,7 +3,7 @@
     error_reporting(E_ALL);
 	ini_set('display_errors', '0ff');
 	ini_set('log_errors', 'On');
-    ini_set('error_log',"/var/www/htmlit490project/website/my-errors.log");
+    ini_set('error_log',"/var/www/html/it490project/website/my-errors.log");
     if (!isset($_SESSION['userid']) ||(trim ($_SESSION['userid']) == '')) {
         header('location:index.php');
         exit();
