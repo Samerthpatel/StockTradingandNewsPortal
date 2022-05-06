@@ -76,17 +76,15 @@ function requestProcessor($request){
 
 function doLogin($username, $password){
   global $configs;
-		
 		//Initialize the connection to the database.
 		$con = mysqli_connect ($configs['SQL_Server'],$configs['SQL_User'],$configs['SQL_Pass'],$configs['SQL_db']);
 		//Constructing the query to find user in the database.
-		$query=mysqli_query($con,"select * from `user` where username='$username' and password='$password'");
-	
-	if (mysqli_num_rows($query)<1){
-		return false;
-		error_log("user was not found in the database");
-	}
-	else{
+		$query="select * from `user` where username='$username'";
+		$result = $con->query($query);
+		$row = $result->fetch_assoc();	
+		$response = array('username' => $row['username'],'name' => $row['your_name'], 'email' => $row['email'], 'userid'=> $row['userid'], 'password'=> $row['password'], 'phone'=> $row['phone']);
+		$response['history'] = array();	
+	if (password_verify($password, $response['password'])){
 		$user = "select * from user where username = '$username'";
 		$result = $con->query($user);
 		$row = $result->fetch_assoc();	
@@ -94,7 +92,10 @@ function doLogin($username, $password){
 		$response['history'] = array();	
 		return $response;
 		return true;
-
+	}
+	else{
+		return false;
+		error_log("user was not found in the database");
 	}
 }
 
@@ -104,14 +105,14 @@ function signUp($username, $password, $name, $email, $phone){
 	//Initialize the connection to the database.
 	$con = mysqli_connect ($configs['SQL_Server'],$configs['SQL_User'],$configs['SQL_Pass'],$configs['SQL_db']);
 	$query=mysqli_query($con, "select * from `user` where email='$email'");
-
+	$pass = password_hash($password, PASSWORD_DEFAULT);
 	if (mysqli_num_rows($query)>0){
 		$response = "1";
 		return $response;
 		error_log("signup didnt work");
 	}
 	else{
-		$insert=mysqli_query($con, "INSERT INTO user(username,password,email,phone,your_name)VALUES('$username','$password','$email','$phone','$name')")or die(mysqli_error($con));
+		$insert=mysqli_query($con, "INSERT INTO user(username,password,email,phone,your_name)VALUES('$username','$pass','$email','$phone','$name')")or die(mysqli_error($con));
 		$response = "0";
 		return $response;
 	}
