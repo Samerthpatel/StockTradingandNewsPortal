@@ -18,6 +18,9 @@ $request = array();
 	$request['password'] = $_POST["password"];
     $request['email'] = $_POST["email"];
 	$request['phone'] = $_POST["phone"];
+	$request['balance'] = $_POST["balance"];
+	$request['add'] = $_POST["add"];
+	$request['sub'] = $_POST["sub"];
 	$response = $client->send_request($request);
 ?>
 
