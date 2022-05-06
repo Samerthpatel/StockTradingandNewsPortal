@@ -120,7 +120,7 @@ ini_set('error_log',"/var/www/html/it490project/website/my-errors.log");
 	</tr>
 
 	<tr>
-		<td>Password:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" id="password" name="password" value="<?php echo $response['password']; ?>"   /></td>
+		<td>Password:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" id="password" name="password" value="<?php echo $response['password']; ?>"/></td>
 	</tr>
 
 	<tr>
@@ -129,6 +129,18 @@ ini_set('error_log',"/var/www/html/it490project/website/my-errors.log");
 
 	<tr>
 		<td>Phone:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="phone" name="phone" value="<?php echo $response['phone']; ?>" /></td>
+	</tr>
+
+	<tr>
+		<td>Balance:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="balance" name="balance" value="<?php echo $response['balance']; ?>" /></td>
+	</tr>
+
+	<tr>
+		<td>Add balance:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="add" name="add" value="0" required/></td>
+	</tr>
+
+    <tr>
+		<td>Substract balance:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="sub" name="sub"/ value="0" required></td>
 	</tr>
 
 	<tr>

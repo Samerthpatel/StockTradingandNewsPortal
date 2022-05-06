@@ -128,7 +128,7 @@
 	</tr>
 
  	<tr>
-		<td></td>
+		<td>Balance:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="<?php echo $response['balance']; ?>" disabled/></td>
 	</tr>
 
 	<tr>

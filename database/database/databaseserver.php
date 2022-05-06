@@ -36,7 +36,7 @@ function requestProcessor($request){
 
 	case "updateprofile":
 		print_r($request);
-		return updateProfile($request['name'], $request['username'], $request['password'], $request['email'], $request['phone'],$request['userid']);
+		return updateProfile($request['name'], $request['username'], $request['password'], $request['email'], $request['phone'],$request['userid'],$request['balance'],$request['add'],$request['sub']);
 
 	case "sendchat":
 		print_r($request);
@@ -126,7 +126,7 @@ function getProfile($userid){
 	$user = "select * from user where userid = '$userid'";
 		$result = $con->query($user);
 		$row = $result->fetch_assoc();	
-		$response = array('username' => $row['username'],'name' => $row['your_name'], 'email' => $row['email'], 'id'=> $row['userid'], 'password'=> $row['password'], 'phone'=> $row['phone']);
+		$response = array('username' => $row['username'],'name' => $row['your_name'], 'email' => $row['email'], 'id'=> $row['userid'], 'password'=> $row['password'], 'phone'=> $row['phone'], 'balance'=> $row['balance']);
 		$response['history'] = array();	
 		return $response;
 }
@@ -138,16 +138,16 @@ function editDetails($userid){
 	$user = "select * from user where userid = '$userid'";
 		$result = $con->query($user);
 		$row = $result->fetch_assoc();	
-		$response = array('username' => $row['username'],'name' => $row['your_name'], 'email' => $row['email'], 'id'=> $row['userid'], 'password'=> $row['password'], 'phone'=> $row['phone']);
+		$response = array('username' => $row['username'],'name' => $row['your_name'], 'email' => $row['email'], 'id'=> $row['userid'], 'password'=> $row['password'], 'phone'=> $row['phone'], 'balance'=> $row['balance']);
 		$response['history'] = array();	
 		return $response;
 }
 
-function updateProfile($name, $username, $password, $email, $phone, $userid){
+function updateProfile($name, $username, $password, $email, $phone, $userid, $balance, $add, $sub){
 	global $configs;
 	//Initialize the connection to the database.
 	$con = mysqli_connect ($configs['SQL_Server'],$configs['SQL_User'],$configs['SQL_Pass'],$configs['SQL_db']);
-	$update_query=mysqli_query($con,"UPDATE user SET your_name='$name',username='$username',password='$password',email='$email',phone='$phone' WHERE userid='$userid' ")or die(mysqli_error($con));
+	$update_query=mysqli_query($con,"UPDATE user SET your_name='$name',username='$username',password='$password',email='$email',phone='$phone', balance= balance + $add -$sub WHERE userid='$userid' ")or die(mysqli_error($con));
 		$result = $con->query($update_query);
 		return true;
 }
