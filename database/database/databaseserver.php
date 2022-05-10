@@ -54,6 +54,10 @@ function requestProcessor($request){
 		print_r($request);
 		return getBalance($request['userid'],);
 
+	case "tradehistory":
+		print_r($request);
+		return tradeHistory($request['userid'],);
+
     case "validate_session":
       	return doValidate($request['sessionId']);
 
@@ -194,6 +198,18 @@ function getBalance($userid){
 	return $response;
 }
 
+function tradeHistory($userid){
+	global $configs;
+	//Initialize the connection to the database.
+	$con = mysqli_connect ($configs['SQL_Server'],$configs['SQL_User'],$configs['SQL_Pass'],$configs['SQL_db']);
+	$user = "SELECT * FROM stocks WHERE userids='$userid'";
+	$result = $con->query($user);
+	$row = $result->fetch_all();
+	$response = json_encode($row);
+	return $response;
+	print_r($response);
+}
+
 function buyStock($userid, $stockname, $buyshares, $stockprice){
 	global $configs;
 	//Initialize the connection to the database.
@@ -206,10 +222,12 @@ function buyStock($userid, $stockname, $buyshares, $stockprice){
 
 		mysqli_query($con,"INSERT INTO stock(userid, stockname, stockprice, stockshares, total, date) VALUES ('$userid', '$stockname' , '$stockprice', '$buyshares', '$total', '$date')")or die(mysqli_error($con));
 		mysqli_query($con,"UPDATE user SET balance = balance - $total WHERE userid='$userid' ")or die(mysqli_error($con));
+		mysqli_query($con,"INSERT INTO stocks(userids, stocknames, stockprices, stocksharess, totals, dates, types) VALUES ('$userid', '$stockname' , '$stockprice', '$buyshares', '$total', '$date', 'bought')")or die(mysqli_error($con));
 		return true;
 	}else
 		mysqli_query($con,"UPDATE user SET balance = balance - $total WHERE userid='$userid' ")or die(mysqli_error($con));
 		mysqli_query($con,"UPDATE stock SET stockprice = $stockprice, stockshares = stockshares + $buyshares, total = total + $total where userid='$userid' && stockname='$stockname' " )or die(mysqli_error($con));
+		mysqli_query($con,"INSERT INTO stocks(userids, stocknames, stockprices, stocksharess, totals, dates, types) VALUES ('$userid', '$stockname' , '$stockprice', '$buyshares', '$total', '$date', 'bought')")or die(mysqli_error($con));
 		return true;
 
 }
@@ -231,6 +249,7 @@ function sellStock($userid, $stockname, $sellshares, $stockprice){
 		mysqli_query($con,"UPDATE user SET balance = balance + $total WHERE userid='$userid' ")or die(mysqli_error($con));
 		mysqli_query($con,"UPDATE stock SET stockprice = $stockprice, stockshares = stockshares - $sellshares, total = total - $total where userid='$userid' && stockname='$stockname' " )or die(mysqli_error($con));
 		mysqli_query($con, "DELETE FROM stock WHERE stockshares = 0");
+		mysqli_query($con,"INSERT INTO stocks(userids, stocknames, stockprices, stocksharess, totals, dates, types) VALUES ('$userid', '$stockname' , '$stockprice', '$sellshares', '$total', '$date', 'sold')")or die(mysqli_error($con));
 		return true;
 
 }

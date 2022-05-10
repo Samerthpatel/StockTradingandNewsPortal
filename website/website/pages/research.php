@@ -3,6 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', '0ff');
 ini_set('log_errors', 'On');
 ini_set('error_log',"/var/www/html/it490project/website/my-errors.log");
+session_start();
 ?>
 <html>
 <head>
@@ -148,6 +149,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </table>
     </div>
 </div>
+<?php
+require_once('../../rabbitmq/path.inc');
+require_once('../../rabbitmq/get_host_info.inc');
+require_once('../../rabbitmq/rabbitMQLib.inc');
 
+        $userid = $_SESSION["userid"];
+	    $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+	    $request = array();
+		$request['type'] = "tradehistory";
+		$request['userid'] = $userid;
+		$response = $client->send_request($request);
+        $history = json_decode($response, true);    
+?>
+<div>
+<div style="text-align:center;">
+        <h1>Trade History: </h1>
+    </div><?php foreach($history as $value) {?>
+  <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Company Ticker:</th>
+      <th scope="col">Shares:</th>
+      <th scope="col">Price:</th>
+      <th scope="col">Total invested:</th>
+      <th scope="col">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><?=$value['1']?></td>
+      <td><?=$value['3']?></td>
+      <td><?=$value['2']?></td>
+      <td><?=$value['4']?></td>
+      <td><?=$value['5']?></td>
+    </tr>
+  </tbody>
+</table>
+<?php } ?>
+</div>
 </body>
 </html>
