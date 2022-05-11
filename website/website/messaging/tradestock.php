@@ -36,6 +36,9 @@ ini_set('error_log',"/var/www/html/it490project/website/my-errors.log");
  
     //Load composer's autoloader
     require 'vendor/autoload.php';
+    require 'vendor/phpmailer/phpmailer/src/Exception.php';
+    require 'vendor/phpmailer/phpmailer/src/SMTP.php';
+    require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
  
     $mail = new PHPMailer(true);                            
     try {
@@ -43,8 +46,8 @@ ini_set('error_log',"/var/www/html/it490project/website/my-errors.log");
         $mail->isSMTP();                                     
         $mail->Host = 'smtp.gmail.com';                      
         $mail->SMTPAuth = true;                             
-        $mail->Username = 'cryptocoders69@gmail.com';     
-        $mail->Password = 'IT-490-class';             
+        $mail->Username = 'cryptocoders420@gmail.com';     
+        $mail->Password = 'Password69$';             
         $mail->SMTPOptions = array(
             'ssl' => array(
             'verify_peer' => false,
@@ -114,6 +117,9 @@ ini_set('error_log',"/var/www/html/it490project/website/my-errors.log");
  
     //Load composer's autoloader
     require 'vendor/autoload.php';
+    require 'vendor/phpmailer/phpmailer/src/Exception.php';
+    require 'vendor/phpmailer/phpmailer/src/SMTP.php';
+    require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
  
     $mail = new PHPMailer(true);                            
     try {
@@ -121,8 +127,8 @@ ini_set('error_log',"/var/www/html/it490project/website/my-errors.log");
         $mail->isSMTP();                                     
         $mail->Host = 'smtp.gmail.com';                      
         $mail->SMTPAuth = true;                             
-        $mail->Username = 'cryptocoders69@gmail.com';     
-        $mail->Password = 'IT-490-class';             
+        $mail->Username = 'cryptocoders420@gmail.com';     
+        $mail->Password = 'Password69$';             
         $mail->SMTPOptions = array(
             'ssl' => array(
             'verify_peer' => false,
