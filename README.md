@@ -134,3 +134,14 @@ WantedBy=multi-user.target
 3. [https://www.stockdata.org/pricing](https://www.stockdata.org/pricing)
    - To get the most recent stock price and relevant stock news for trading.
    - Key=tN7dV7K9FFMKGh49Bf
+
+## Github repository
+- https://github.com/Samerthpatel/it490project
+- Relevant Branches:
+  - Master (Main Branch)
+  - push
+  - chatroom
+  - rabbitmq
+  - website
+  - stockdata
+  - stocktrade
