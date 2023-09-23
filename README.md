@@ -136,7 +136,7 @@ WantedBy=multi-user.target
    - Key=tN7dV7K9FFMKGh49Bf
 
 ## Github repository
-- https://github.com/Samerthpatel/it490project
+- https://github.com/Samerthpatel/StockTradingandNewsPortal
 - Relevant Branches:
   - Master (Main Branch)
   - push
